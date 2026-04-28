@@ -1,7 +1,7 @@
 import { FontAwesome, MaterialIcons, Octicons } from "@expo/vector-icons";
 import { Text, TextInput, TextInputProps, TouchableOpacity, View } from "react-native";
 import { style } from "./styles";
-import { themas } from "../../global/themes";
+import { themes } from "../../global/themes";
 import { ComponentProps, ElementType, useMemo } from "react";
 
 type MaterialIconsType = ComponentProps<typeof MaterialIcons>;
@@ -50,7 +50,7 @@ export function Textfield(props: TextFieldProps) {
             <View style={[style.inputBox, { paddingLeft: paddingInputWithIcon }]}>
                 {IconLeft && iconLeftName && (
                     <TouchableOpacity onPress={iconPress}>
-                        <IconLeft name={iconLeftName} size={20} color={themas.colors.gray} />
+                        <IconLeft name={iconLeftName} size={20} color={themes.colors.gray} />
                     </TouchableOpacity>
                 )}
                 <TextInput
@@ -61,7 +61,7 @@ export function Textfield(props: TextFieldProps) {
                 />
                 {IconRight && iconRightName && (
                     <TouchableOpacity onPress={iconPress}>
-                        <IconRight name={iconRightName} size={20} color={themas.colors.gray} />
+                        <IconRight name={iconRightName} size={20} color={themes.colors.gray} />
                     </TouchableOpacity>
                 )}
             </View>    

@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
-import { themas } from "../../global/themes";
+import { themes } from "../../global/themes";
 
 export const style = StyleSheet.create({
     inputLabel: {
-        color: themas.colors.gray,
+        color: themes.colors.gray,
         marginTop: 10,
         fontWeight: 'bold',
         fontSize: 16
@@ -17,11 +17,11 @@ export const style = StyleSheet.create({
         height: 40,
         marginTop: 5,
         borderWidth: 1,
-        borderColor: themas.colors.lightGray,
+        borderColor: themes.colors.lightGray,
         borderRadius: 40,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
-        backgroundColor: themas.colors.lightGray
+        backgroundColor: themes.colors.lightGray
     },
 })

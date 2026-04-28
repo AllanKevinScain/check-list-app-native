@@ -1,13 +1,18 @@
-import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, View } from "react-native";
 import { style } from "./styles";
-
 import logo from "../../assets/logo.png";
-import { themas } from "../../global/themes";
+import { themes } from "../../global/themes";
 import { useState } from "react";
 import { Button, Textfield } from "../../components";
 import { MaterialIcons, Octicons } from "@expo/vector-icons";
+import { useRouter } from "../../hooks";
 
-export default function Login() {
+
+
+
+export function LoginPage() {
+    const router = useRouter()
+
     const [loginState, setLoginState] = useState({
         email: '',
         password: ''
@@ -19,7 +24,7 @@ export default function Login() {
 
     function handleLogin() {
         if (loginState.email && loginState.password) {
-            return Alert.alert("Logado com sucesso!")
+            return router.reset({routes: [{ name: "bottomRoutes" }]});
         }
         return Alert.alert("Atenção", "Preencha todos os campos");
     }
@@ -57,7 +62,7 @@ export default function Login() {
             </View>
             <Text style={style.createAccountText}>
                 Não te conta?{" "}
-                <Text style={{color: themas.colors.primary}}>Crie agora!</Text>
+                <Text style={{color: themes.colors.primary}}>Crie agora!</Text>
             </Text>
         </View>
     )

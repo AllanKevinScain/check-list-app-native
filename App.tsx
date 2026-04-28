@@ -1,14 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
-import Login from './src/pages/login';
+import * as React from 'react';
+import { createStaticNavigation } from '@react-navigation/native';
+import { RootStack } from './src/routes/index.routes';
+
+const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-  return (
-    <>
-      <StatusBar style="auto" />
-      <Login  />
-    </>
-  );
+  return <Navigation />;
 }
-
-const styles = StyleSheet.create({});
