@@ -3,9 +3,12 @@ import { TabItem } from "../tab-item/index.";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import { style } from "./styles";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { useListProvider } from "../../../context";
 
 export function BottomBarComponent(props: BottomTabBarProps) {
     const {navigate} = props.navigation;
+
+    const {handle} = useListProvider()
     const currentRouteName = props.state.routes[props.state.index].name;
 
     return (
@@ -21,6 +24,7 @@ export function BottomBarComponent(props: BottomTabBarProps) {
                 iconName="plus"
                 iconSize={40}
                 isPrincipal
+                onPress={handle}
             />
             <TabItem
                 Icon={FontAwesome}
