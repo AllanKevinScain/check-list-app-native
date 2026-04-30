@@ -2,14 +2,19 @@
   "name": "check-list-app-native",
   "version": "1.0.0",
   "main": "index.ts",
+  "type": "module",
+  "private": true,
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "lint": "expo lint",
+    "format": "prettier --config .prettierrc.cjs --write \"src/**/*.ts\""
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
+    "@react-native-community/datetimepicker": "^9.1.0",
     "@react-navigation/bottom-tabs": "^7.15.10",
     "@react-navigation/elements": "^2.9.15",
     "@react-navigation/native": "^7.2.2",
@@ -17,13 +22,19 @@
     "expo": "~54.0.33",
     "expo-status-bar": "~3.0.9",
     "react": "19.1.0",
+    "react-hook-form": "^7.74.0",
     "react-native": "0.81.5",
+    "react-native-gesture-handler": "^2.31.1",
+    "react-native-modalize": "^2.1.1",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~10.0.0",
+    "globals": "^17.5.0",
+    "prettier": "^3.8.3",
     "typescript": "~5.9.2"
-  },
-  "private": true
+  }
 }

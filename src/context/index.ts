@@ -1,1 +1,1 @@
-export * from "./list/hook"
+export * from "./list/hook";
