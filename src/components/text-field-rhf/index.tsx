@@ -17,9 +17,9 @@ export function TextfieldRHF<T extends FieldValues>(props: TextfieldRHFProps<T>)
       control={control}
       name={name}
       rules={rules}
-      render={({ field: { onChange, ...restRHF }, fieldState: { error } }) => (
-        <Textfield {...restProps} {...restRHF} onChangeText={onChange} messageError={error?.message} />
-      )}
+      render={({ field: { onChange, ...restRHF }, fieldState: { error } }) => {
+        return <Textfield {...restProps} {...restRHF} onChangeText={onChange} messageError={error?.message} />;
+      }}
     />
   );
 }

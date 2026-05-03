@@ -18,14 +18,14 @@ export function Ball(props: BallProps) {
         {
           height: size ?? 20,
           width: size ?? 20,
-          borderColor: color ?? themes.colors.lightGray,
+          borderColor: color ?? themes.colors.primary,
         },
       ]}>
       <View
         style={[
           style.ball,
           {
-            backgroundColor: color ?? themes.colors.lightGray,
+            backgroundColor: color ?? themes.colors.primary,
             opacity: selected ? 1 : 0,
           },
         ]}

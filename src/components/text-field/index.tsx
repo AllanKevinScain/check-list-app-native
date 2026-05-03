@@ -1,10 +1,11 @@
-import type { FontAwesome, MaterialIcons, Octicons } from "@expo/vector-icons";
+import type { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import type { StyleProp, TextInputProps, TextStyle, ViewStyle } from "react-native";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { style } from "./styles";
 import { themes } from "@/global/themes";
 import type { ComponentProps, ElementType } from "react";
-import { useMemo } from "react";
+import { useState } from "react";
 
 type MaterialIconsType = ComponentProps<typeof MaterialIcons>;
 type NameMaterialIconsType = Pick<MaterialIconsType, "name">;
@@ -27,50 +28,69 @@ export interface TextFieldProps extends TextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   messageError?: string;
+  type?: "pass" | "text";
   iconPress?: () => void;
 }
 
-export function Textfield(props: TextFieldProps) {
-  const {
-    value = "",
-    onChangeText = () => null,
-    label,
-    IconLeft,
-    iconLeftName,
-    IconRight,
-    iconRightName,
-    iconPress,
-    labelStyle,
-    containerStyle,
-    inputStyle,
-    messageError,
-    ...restInputProps
-  } = props;
+export function Textfield({
+  value = "",
+  onChangeText = () => null,
+  label,
+  IconLeft,
+  iconLeftName,
+  IconRight,
+  iconRightName,
+  iconPress,
+  labelStyle,
+  containerStyle,
+  inputStyle,
+  messageError,
+  type = "text",
+  secureTextEntry,
+  ...restInputProps
+}: TextFieldProps) {
+  const [showPass, setShowPass] = useState(true);
 
-  const paddingInputWithIcon = useMemo(() => {
-    if (IconLeft && IconRight) return 0;
-    if (IconLeft || IconRight) return 10;
+  const isPasswordField = type === "pass";
 
-    return 20;
-  }, [IconLeft, IconRight]);
+  function togglePass() {
+    setShowPass((s) => !s);
+  }
+
+  const iconColor = themes.colors.textSecondary;
 
   return (
-    <>
+    <View style={style.container}>
       {label && <Text style={[style.inputLabel, labelStyle]}>{label}</Text>}
-      <View style={[style.inputBox, { paddingLeft: paddingInputWithIcon }, containerStyle]}>
+      <View style={[style.inputBox, !!messageError && { borderColor: themes.colors.error }, containerStyle]}>
         {IconLeft && iconLeftName && (
-          <TouchableOpacity onPress={iconPress}>
-            <IconLeft name={iconLeftName} size={20} color={themes.colors.gray} />
+          <TouchableOpacity onPress={iconPress} disabled={!iconPress} style={{ marginRight: themes.spacing.sm }}>
+            <IconLeft name={iconLeftName} size={20} color={iconColor} />
           </TouchableOpacity>
         )}
-        <TextInput style={[style.input, inputStyle]} value={value} onChangeText={onChangeText} {...restInputProps} />
-        {IconRight && iconRightName && (
-          <TouchableOpacity onPress={iconPress}>
-            <IconRight name={iconRightName} size={20} color={themes.colors.gray} />
+
+        <TextInput
+          style={[style.input, inputStyle]}
+          value={value}
+          onChangeText={onChangeText}
+          placeholderTextColor={themes.colors.textSecondary}
+          secureTextEntry={isPasswordField ? showPass : secureTextEntry}
+          {...restInputProps}
+        />
+
+        {isPasswordField && (
+          <TouchableOpacity onPress={togglePass} style={{ marginLeft: themes.spacing.sm }}>
+            <Octicons name={showPass ? "eye-closed" : "eye"} size={20} color={iconColor} />
+          </TouchableOpacity>
+        )}
+
+        {IconRight && iconRightName && !isPasswordField && (
+          <TouchableOpacity onPress={iconPress} style={{ marginLeft: themes.spacing.sm }}>
+            <IconRight name={iconRightName} size={20} color={iconColor} />
           </TouchableOpacity>
         )}
       </View>
       {!!messageError && <Text style={style.error}>{messageError}</Text>}
-    </>
+    </View>
   );
 }

@@ -8,8 +8,8 @@ export const style = StyleSheet.create({
     justifyContent: "space-around",
     paddingTop: 20,
     paddingBottom: 40,
-    shadowColor: "#000000",
+    shadowColor: themes.colors.black,
     borderTopWidth: 1,
-    borderTopColor: themes.colors.gray,
+    borderTopColor: themes.colors.border,
   },
 });

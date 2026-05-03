@@ -4,29 +4,34 @@ import { themes } from "@/global/themes";
 export const style = StyleSheet.create({
   container: {
     width: "100%",
-    height: 60,
-    backgroundColor: "#FFF",
-    marginTop: 6,
-    padding: 10,
+    height: 70,
+    backgroundColor: themes.colors.surface,
+    marginBottom: themes.spacing.sm,
+    paddingHorizontal: themes.spacing.md,
+    paddingVertical: themes.spacing.sm,
 
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
 
-    borderRadius: 10,
+    borderRadius: themes.borderRadius.md,
     borderWidth: 1,
-    borderColor: themes.colors.lightGray,
+    borderColor: themes.colors.border,
   },
   secondaryContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: themes.spacing.md,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "700",
+    color: themes.colors.textPrimary,
   },
   description: {
-    fontSize: 12,
-    color: themes.colors.gray,
+    fontSize: 13,
+    fontWeight: "500",
+    color: themes.colors.textSecondary,
+    marginTop: 2,
   },
 });

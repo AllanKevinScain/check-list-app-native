@@ -1,6 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomBar, LoginPage } from "@/pages";
 
+import { themes } from "@/global/themes";
+
 const screens = {
   Login: LoginPage,
   bottomRoutes: BottomBar,
@@ -12,7 +14,7 @@ export const RootStack = createNativeStackNavigator({
   screenOptions: {
     headerShown: false,
     contentStyle: {
-      backgroundColor: "white",
+      backgroundColor: themes.colors.background,
     },
   },
   screens,

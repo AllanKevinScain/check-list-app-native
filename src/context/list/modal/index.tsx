@@ -5,6 +5,9 @@ import { DatepickerRHF, Flag, TextfieldRHF } from "@/components";
 import { style } from "./style";
 import { themes } from "@/global/themes";
 import { useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
+import { taskSchema, type TaskSchemaInfertype } from "@/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface ModalProps {
   ref: React.RefObject<Modalize>;
@@ -16,22 +19,16 @@ type FlagsType = {
   color: string;
 };
 
-type FormType = {
-  title: string;
-  description?: string;
-  limitTime: Date;
-  limitDate: Date;
-};
-
 const flags: FlagsType[] = [
-  { caption: "urgente", color: themes.colors.red },
-  { caption: "opcional", color: themes.colors.blueLigth },
+  { caption: "urgente", color: themes.colors.error },
+  { caption: "opcional", color: themes.colors.secondary },
 ];
 
 export function Modal(props: ModalProps) {
   const { close, ref } = props;
 
-  const { control, handleSubmit } = useForm<FormType>({
+  const { control, handleSubmit } = useForm<TaskSchemaInfertype>({
+    resolver: yupResolver(taskSchema) as any,
     defaultValues: {
       title: "",
       description: "",
@@ -40,7 +37,10 @@ export function Modal(props: ModalProps) {
     },
   });
 
-  const onSubmit = (data: FormType) => console.log(data);
+  function onSubmit(data: TaskSchemaInfertype) {
+    const formatedData = { id: uuid(), ...data };
+    console.log("🚀 ~ onSubmit ~ formatedData:", formatedData);
+  }
 
   return (
     <Modalize
@@ -52,18 +52,17 @@ export function Modal(props: ModalProps) {
       <KeyboardAvoidingView style={style.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={style.header}>
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-            <AntDesign name="check" size={30} />
+            <AntDesign name="check" size={30} color={themes.colors.black} />
           </TouchableOpacity>
           <Text style={style.title}>Criar Tarfea</Text>
           <TouchableOpacity onPress={close}>
-            <MaterialIcons name="close" size={30} />
+            <MaterialIcons name="close" size={30} color={themes.colors.black} />
           </TouchableOpacity>
         </View>
 
         <View style={style.formContainer}>
           <TextfieldRHF
             control={control}
-            rules={{ required: true }}
             name="title"
             label="Titulo:"
             labelStyle={style.inputLabel}
@@ -83,7 +82,6 @@ export function Modal(props: ModalProps) {
             <DatepickerRHF
               control={control}
               name="limitDate"
-              rules={{ required: true }}
               label="Tempo limite:"
               labelStyle={style.inputLabel}
               containerStyle={{ width: 200 }}
@@ -92,7 +90,6 @@ export function Modal(props: ModalProps) {
             <DatepickerRHF
               control={control}
               name="limitTime"
-              rules={{ required: true }}
               label="Hora limite:"
               labelStyle={style.inputLabel}
               containerStyle={{ width: 120 }}

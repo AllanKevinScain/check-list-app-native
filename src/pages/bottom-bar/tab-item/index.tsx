@@ -20,6 +20,8 @@ interface TabItemProps {
   isSelected?: boolean;
 }
 
+import { themes } from "@/global/themes";
+
 export function TabItem(props: TabItemProps) {
   const { Icon, iconName, onPress, disabled = false, iconSize = 32, isPrincipal = false, isSelected = false } = props;
 
@@ -27,11 +29,16 @@ export function TabItem(props: TabItemProps) {
     <TouchableOpacity onPress={onPress} disabled={disabled} style={style.container}>
       {isPrincipal && (
         <View style={style.principalContainer}>
-          <Icon name={iconName} size={iconSize} color="white" />
+          <Icon name={iconName} size={iconSize} color={themes.colors.white} />
         </View>
       )}
       {!isPrincipal && (
-        <Icon name={iconName} size={iconSize} color="black" style={[style.icon, { opacity: isSelected ? 1 : 0.4 }]} />
+        <Icon 
+          name={iconName} 
+          size={iconSize} 
+          color={isSelected ? themes.colors.primary : themes.colors.textSecondary} 
+          style={style.icon} 
+        />
       )}
     </TouchableOpacity>
   );

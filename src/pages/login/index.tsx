@@ -1,31 +1,28 @@
-import { Alert, Image, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import { style } from "./styles";
-import logo from "@/assets/logo.png";
-import { themes } from "@/global/themes";
-import { useState } from "react";
-import { Button, Textfield } from "@/components";
-import { MaterialIcons, Octicons } from "@expo/vector-icons";
+import logo from "@/assets/react-logo.png";
+import { Button, TextfieldRHF } from "@/components";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "@/hooks";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import type { LoginSchemaInfertype } from "@/schema";
+import { loginSchema } from "@/schema";
 
 export function LoginPage() {
   const router = useRouter();
 
-  const [loginState, setLoginState] = useState({
-    email: "",
-    password: "",
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: "teste@gmail.com",
+      password: "1234",
+    },
   });
 
-  const [showPass, setShowPass] = useState(false);
-
-  function togglePass() {
-    setShowPass((s) => !s);
-  }
-
-  function handleLogin() {
-    if (loginState.email && loginState.password) {
-      return router.reset({ routes: [{ name: "bottomRoutes" }] });
-    }
-    return Alert.alert("Atenção", "Preencha todos os campos");
+  function handleLogin(data: LoginSchemaInfertype) {
+    console.log("🚀 ~ handleLogin ~ data:", data);
+    router.reset({ routes: [{ name: "bottomRoutes" }] });
   }
 
   return (
@@ -35,30 +32,28 @@ export function LoginPage() {
         <Text style={style.logoText}>Bem vindo de volta!</Text>
       </View>
       <View style={style.boxMiddle}>
-        <Textfield
+        <TextfieldRHF
+          control={control}
+          name="email"
+          rules={{ required: true }}
           label="ENDEREÇO DE E-MAIL:"
           placeholder="youremail@email.com"
-          value={loginState.email}
-          onChangeText={(e) => setLoginState((s) => ({ ...s, email: e }))}
           IconRight={MaterialIcons}
           iconRightName="email"
         />
-        <Textfield
+        <TextfieldRHF
+          control={control}
+          name="password"
+          rules={{ required: true }}
           label="SENHA:"
           placeholder="Your pass"
-          value={loginState.password}
-          onChangeText={(e) => setLoginState((s) => ({ ...s, password: e }))}
-          IconRight={Octicons}
-          iconRightName="eye-closed"
-          secureTextEntry={showPass}
-          iconPress={togglePass}
         />
       </View>
       <View style={style.boxBottom}>
-        <Button onPress={handleLogin}>Entrar</Button>
+        <Button onPress={handleSubmit(handleLogin)}>Entrar</Button>
       </View>
       <Text style={style.createAccountText}>
-        Não te conta? <Text style={{ color: themes.colors.primary }}>Crie agora!</Text>
+        Não tem conta? <Text style={style.createAccountLink}>Crie agora!</Text>
       </Text>
     </View>
   );

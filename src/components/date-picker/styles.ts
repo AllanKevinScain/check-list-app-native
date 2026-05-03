@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { themes } from "@/global/themes";
 
 export const style = StyleSheet.create({
@@ -6,18 +7,20 @@ export const style = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: themes.colors.blackTransparent,
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   container: {
     width: "80%",
-    padding: 16,
+    padding: themes.spacing.md,
+    borderRadius: themes.borderRadius.md,
     elevation: 5,
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: themes.colors.white,
   },
   dateText: {
-    marginTop: 20,
+    marginTop: themes.spacing.md,
     fontSize: 18,
     textAlign: "center",
+    color: themes.colors.black,
   },
 });

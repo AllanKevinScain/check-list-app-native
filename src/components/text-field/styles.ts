@@ -2,30 +2,36 @@ import { StyleSheet } from "react-native";
 import { themes } from "@/global/themes";
 
 export const style = StyleSheet.create({
-  inputLabel: {
-    color: themes.colors.gray,
-    marginTop: 10,
-    fontWeight: "bold",
-    fontSize: 16,
+  container: {
+    width: "100%",
   },
-  input: {
-    height: "100%",
-    width: "90%",
+  inputLabel: {
+    color: themes.colors.textSecondary,
+    marginBottom: themes.spacing.xs,
+    fontWeight: "600",
+    fontSize: 14,
   },
   inputBox: {
     width: "100%",
-    height: 40,
-    marginTop: 5,
+    height: 48,
     borderWidth: 1,
-    borderColor: themes.colors.lightGray,
-    borderRadius: 40,
+    borderColor: themes.colors.border,
+    borderRadius: themes.borderRadius.md,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 10,
-    backgroundColor: themes.colors.lightGray,
+    paddingHorizontal: themes.spacing.md,
+    backgroundColor: themes.colors.surface,
+  },
+  input: {
+    flex: 1,
+    height: "100%",
+    color: themes.colors.textPrimary,
+    fontSize: 16,
   },
   error: {
-    fontWeight: "semibold",
-    color: "red",
+    fontWeight: "500",
+    color: themes.colors.error,
+    fontSize: 12,
+    marginTop: themes.spacing.xs,
   },
 });
