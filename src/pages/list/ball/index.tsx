@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { style } from "./style";
 import { themes } from "@/global/themes";
 
@@ -6,30 +6,33 @@ interface BallProps {
   size?: number;
   color?: string;
   selected?: boolean;
+  onPress?: () => void;
 }
 
 export function Ball(props: BallProps) {
-  const { color, selected, size } = props;
+  const { color = themes.colors.secondary, selected, size = 24, onPress } = props;
 
   return (
-    <View
-      style={[
-        style.container,
-        {
-          height: size ?? 20,
-          width: size ?? 20,
-          borderColor: color ?? themes.colors.primary,
-        },
-      ]}>
+    <TouchableOpacity style={style.container} onPress={onPress}>
       <View
         style={[
-          style.ball,
+          style.containerBall,
           {
-            backgroundColor: color ?? themes.colors.primary,
-            opacity: selected ? 1 : 0,
+            height: size,
+            width: size,
+            borderColor: color,
           },
-        ]}
-      />
-    </View>
+        ]}>
+        <View
+          style={[
+            style.ball,
+            {
+              backgroundColor: color,
+              opacity: selected ? 1 : 0,
+            },
+          ]}
+        />
+      </View>
+    </TouchableOpacity>
   );
 }

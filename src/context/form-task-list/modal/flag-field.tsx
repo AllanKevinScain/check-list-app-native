@@ -29,15 +29,14 @@ export function FlagField(props: FlagFieldProps) {
 
   return (
     <View>
-      <Text style={style.textFlags}>Flags:</Text>
+      <Text style={style.textFlags}>Priority:</Text>
       <View style={style.containerFlags}>
         {flags.map((flag) => {
           return (
             <Flag
               key={flag.caption}
-              color={flag.color}
+              selected={flag.caption === currentFlag}
               caption={flag.caption}
-              selected={currentFlag === flag.caption}
               onPress={() => setValue("flag", flag.caption!)}
             />
           );

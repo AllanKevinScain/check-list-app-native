@@ -2,6 +2,7 @@ import type { TaskSchemaInfertype } from "@/schema";
 import type { RefObject } from "react";
 import { createContext } from "react";
 import type { IHandles } from "react-native-modalize/lib/options";
+import type { UseFilterListInterface, UseModalModeInterface } from "./list-hook";
 
 export type ModalModeType = "create" | "edit";
 
@@ -17,16 +18,13 @@ export type ListType = Pick<TaskSchemaInfertype, "title" | "description" | "flag
   id: string;
 };
 
-export interface ListContextType extends UseModalizeType {
-  list: ListType[];
-  updateList: (data: ListType[]) => void;
-  modeModal: ModalModeType;
-  updateModalMode: (mode: ModalModeType) => void;
-}
+export type ListContextType = UseModalizeType & UseFilterListInterface & UseModalModeInterface;
 
 export const ListContext = createContext<ListContextType>({
   list: [],
+  filteredList: [],
   updateList: () => null,
+  updateFilteredList: () => null,
   close: () => null,
   open: () => null,
   ref: {} as RefObject<IHandles>,

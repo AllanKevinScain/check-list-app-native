@@ -88,7 +88,7 @@ export function Modal(props: ModalProps) {
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
             <AntDesign name="check" size={30} color={themes.colors.black} />
           </TouchableOpacity>
-          <Text style={style.title}>Criar Tarefa</Text>
+          <Text style={style.title}>Register task</Text>
           <TouchableOpacity onPress={close}>
             <MaterialIcons name="close" size={30} color={themes.colors.black} />
           </TouchableOpacity>
@@ -98,14 +98,14 @@ export function Modal(props: ModalProps) {
           <TextfieldRHF
             control={control}
             name="title"
-            label="Titulo:"
+            label="Title:"
             labelStyle={style.inputLabel}
             placeholder="Digite o título da tarefa"
           />
           <TextfieldRHF
             control={control}
             name="description"
-            label="Descrição:"
+            label="Description:"
             labelStyle={style.inputLabel}
             containerStyle={{ height: 100, borderRadius: 20 }}
             multiline
@@ -116,7 +116,7 @@ export function Modal(props: ModalProps) {
             <DatepickerRHF
               control={control}
               name="limitDate"
-              label="Tempo limite:"
+              label="Limit date:"
               labelStyle={style.inputLabel}
               containerStyle={{ width: 200 }}
               mode="date"
@@ -124,7 +124,7 @@ export function Modal(props: ModalProps) {
             <DatepickerRHF
               control={control}
               name="limitTime"
-              label="Hora limite:"
+              label="Limit time:"
               labelStyle={style.inputLabel}
               containerStyle={{ width: 120 }}
               mode="time"

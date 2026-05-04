@@ -4,11 +4,18 @@ import { themes } from "@/global/themes";
 export const style = StyleSheet.create({
   container: {
     width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+
+    paddingHorizontal: themes.spacing.xl,
+    paddingBottom: themes.spacing.md,
+  },
+  swipeableContainer: {
+    width: "100%",
     height: Dimensions.get("window").height / 10,
     backgroundColor: themes.colors.surface,
-    marginBottom: themes.spacing.md,
     paddingHorizontal: themes.spacing.md,
-    paddingVertical: themes.spacing.sm,
 
     flexDirection: "row",
     justifyContent: "space-between",

@@ -12,6 +12,7 @@ export const style = StyleSheet.create({
     height: Dimensions.get("window").height / 6,
     backgroundColor: themes.colors.primary,
     padding: themes.spacing.md,
+    marginBottom: themes.spacing.md,
     justifyContent: "flex-end",
 
     // Android Shadow
@@ -30,10 +31,5 @@ export const style = StyleSheet.create({
   },
   inputBox: {
     marginTop: themes.spacing.xs,
-  },
-  flatList: {
-    paddingHorizontal: themes.spacing.lg,
-    paddingTop: themes.spacing.sm,
-    paddingBottom: themes.spacing.xl,
   },
 });

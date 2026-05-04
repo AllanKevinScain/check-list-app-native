@@ -9,7 +9,7 @@ import type { TaskSchemaInfertype } from "@/schema";
 
 export function ListPage() {
   const { reset } = useFormContext<TaskSchemaInfertype>();
-  const { open, list, updateList, updateModalMode } = useListProvider();
+  const { open, list, updateModalMode } = useListProvider();
 
   return (
     <View style={style.container}>
@@ -24,7 +24,6 @@ export function ListPage() {
 
       <FlatList
         data={list}
-        style={style.flatList}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => (
           <ItemList
@@ -33,7 +32,6 @@ export function ListPage() {
               updateModalMode("edit");
               open();
             }}
-            updateList={updateList}
           />
         )}
         ListEmptyComponent={() => (

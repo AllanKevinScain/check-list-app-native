@@ -1,45 +1,48 @@
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { style } from "./style";
+import type { FlagSchemaInferType } from "@/schema";
 import { themes } from "@/global/themes";
 
 interface FlagProps {
-  caption?: string;
-  color: string;
-  selected?: boolean;
+  caption: FlagSchemaInferType;
   onPress?: () => void;
+  disabled?: boolean;
+  selected?: boolean;
 }
 
-export function Flag({ color, caption, selected, onPress }: FlagProps) {
+export function Flag(props: FlagProps) {
+  const { caption, onPress, disabled = false, selected = false } = props;
+
+  const color = caption === "urgent" ? themes.colors.error : themes.colors.surfaceSecondary;
+
+  if (disabled) {
+    return (
+      <View style={style.container}>
+        {caption === "urgent" ? (
+          <Entypo size={34} name="warning" color={color} />
+        ) : (
+          <Entypo size={24} name="emoji-happy" color={color} />
+        )}
+      </View>
+    );
+  }
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.7}
-      style={[
-        style.container,
-        {
-          backgroundColor: color,
-          opacity: selected === false ? 0.5 : 1,
-          borderWidth: selected ? 2 : 0,
-          borderColor: themes.colors.white,
-        },
-      ]}>
-      <Text style={style.text}>
-        {caption}
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={style.container}>
+      <Text
+        style={[
+          style.text,
+          {
+            color,
+            borderWidth: 1,
+            padding: themes.spacing.sm,
+            borderRadius: themes.borderRadius.md,
+            opacity: selected ? 1 : 0.3,
+          },
+        ]}>
+        {caption?.toUpperCase()}
       </Text>
     </TouchableOpacity>
   );
 }
-
-const style = StyleSheet.create({
-  container: {
-    borderRadius: themes.borderRadius.sm,
-    paddingVertical: themes.spacing.xs,
-    paddingHorizontal: themes.spacing.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: themes.colors.white,
-    fontSize: 12,
-    fontWeight: "700",
-  }
-});
