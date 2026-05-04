@@ -1,12 +1,12 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { themes } from "@/global/themes";
 
 export const style = StyleSheet.create({
   container: {
     width: "100%",
-    height: 70,
+    height: Dimensions.get("window").height / 10,
     backgroundColor: themes.colors.surface,
-    marginBottom: themes.spacing.sm,
+    marginBottom: themes.spacing.md,
     paddingHorizontal: themes.spacing.md,
     paddingVertical: themes.spacing.sm,
 

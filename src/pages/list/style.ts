@@ -5,6 +5,7 @@ export const style = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: themes.colors.background,
+    gap: 10,
   },
   header: {
     width: "100%",
@@ -12,8 +13,10 @@ export const style = StyleSheet.create({
     backgroundColor: themes.colors.primary,
     padding: themes.spacing.md,
     justifyContent: "flex-end",
+
     // Android Shadow
     elevation: 4,
+
     // iOS Shadow
     shadowColor: themes.colors.black,
     shadowOffset: { width: 0, height: 2 },
@@ -30,6 +33,7 @@ export const style = StyleSheet.create({
   },
   flatList: {
     paddingHorizontal: themes.spacing.lg,
-    paddingTop: themes.spacing.md,
+    paddingTop: themes.spacing.sm,
+    paddingBottom: themes.spacing.xl,
   },
 });

@@ -31,5 +31,11 @@
 - **Eliminação de Hardcoded Colors:** Remoção de strings como `"white"`, `"black"` e `"red"` em favor dos tokens do tema.
 - **Consistência de Rotas:** Definição da cor de fundo padrão nas configurações do `RootStack`.
 
+## 5. Correções de Contexto e Gerenciamento de Modal
+- **Resolução de Conflito de Props:** Renomeação da prop `ref` para `modalRef` no componente `Modal` para evitar conflitos com a palavra reservada do React, garantindo que o `Modalize` receba a referência corretamente.
+- **Hierarquia de Providers:** Reestruturação do `BottomBar` para que o `FormTaskListProvider` envolva todo o `Tab.Navigator`. Isso garante que o Modal esteja sempre montado e acessível de qualquer aba (List ou User).
+- **Padronização de Reset:** Centralização e exportação de `defaultValues` no `FormTaskListProvider`, permitindo que o `BottomBarComponent` limpe o formulário antes de abrir o modal para novas tarefas.
+- **Tipagem e UX:** Refinamento das interfaces de Props e correção de labels visuais no cabeçalho do modal.
+
 ---
 *Nota: Este projeto agora segue rigorosamente os tokens definidos em `src/global/themes.tsx` para qualquer nova implementação visual.*

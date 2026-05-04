@@ -3,10 +3,11 @@ import { themes } from "@/global/themes";
 
 export const style = StyleSheet.create({
   container: {
+    flex: 1,
     width: "100%",
     paddingTop: themes.spacing.md,
     paddingHorizontal: themes.spacing.lg,
-    backgroundColor: themes.colors.white, // Modal background
+    backgroundColor: themes.colors.white,
   },
   header: {
     width: "100%",

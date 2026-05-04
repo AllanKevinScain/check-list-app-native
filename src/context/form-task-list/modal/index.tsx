@@ -1,51 +1,85 @@
 import { Modalize } from "react-native-modalize";
 import { Dimensions, KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { DatepickerRHF, Flag, TextfieldRHF } from "@/components";
+import { DatepickerRHF, TextfieldRHF } from "@/components";
 import { style } from "./style";
 import { themes } from "@/global/themes";
-import { useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
-import { taskSchema, type TaskSchemaInfertype } from "@/schema";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useFormContext } from "react-hook-form";
+import uuid from "react-native-uuid";
+
+import { type TaskSchemaInfertype } from "@/schema";
+import { FlagField } from "./flag-field";
+import { useItemAsyncStorage } from "@/hooks";
+import { TASK_LIST_KEY } from "@/constants/keys";
+
+import type { IHandles } from "react-native-modalize/lib/options";
+import { defaultValues } from "../provider";
+import type { ListType } from "@/context/list";
 
 interface ModalProps {
-  ref: React.RefObject<Modalize>;
+  modalRef: React.RefObject<IHandles>;
   close: () => void;
+  updateList: (data: ListType[]) => void;
+  mode: "create" | "edit";
 }
 
-type FlagsType = {
-  caption: "urgente" | "opcional";
-  color: string;
-};
-
-const flags: FlagsType[] = [
-  { caption: "urgente", color: themes.colors.error },
-  { caption: "opcional", color: themes.colors.secondary },
-];
-
 export function Modal(props: ModalProps) {
-  const { close, ref } = props;
+  const { close, modalRef, updateList, mode = "create" } = props;
 
-  const { control, handleSubmit } = useForm<TaskSchemaInfertype>({
-    resolver: yupResolver(taskSchema) as any,
-    defaultValues: {
-      title: "",
-      description: "",
-      limitTime: new Date(),
-      limitDate: new Date(),
-    },
-  });
+  const { control, handleSubmit, setValue, reset } = useFormContext<TaskSchemaInfertype>();
+  const { addItem, editItem } = useItemAsyncStorage(TASK_LIST_KEY);
 
-  function onSubmit(data: TaskSchemaInfertype) {
-    const formatedData = { id: uuid(), ...data };
-    console.log("🚀 ~ onSubmit ~ formatedData:", formatedData);
+  async function onCreate(data: ListType) {
+    try {
+      const items = await addItem(data);
+      updateList(items);
+    } catch (error) {
+      console.log("🚀 ~ create item error", error);
+    } finally {
+      close();
+      reset(defaultValues);
+    }
+  }
+  async function onEdit(data: ListType) {
+    try {
+      const items = await editItem(data.id, data);
+      updateList(items);
+    } catch (error) {
+      console.log("🚀 ~ edit item error", error);
+    } finally {
+      close();
+      reset(defaultValues);
+    }
+  }
+
+  async function onSubmit(data: TaskSchemaInfertype) {
+    const timeLimit = new Date(
+      data.limitDate.getFullYear(),
+      data.limitDate.getMonth(),
+      data.limitDate.getDate(),
+      data.limitTime.getHours(),
+      data.limitTime.getMinutes(),
+    );
+    const formatedData = {
+      ...data,
+      id: mode === "create" ? uuid.v4() : data.id!,
+      timeLimit,
+      at_updated: new Date(),
+    };
+    const { limitDate: _LD, limitTime: _LT, ...rest } = formatedData;
+
+    if (mode === "edit") {
+      await onEdit(rest);
+    } else {
+      await onCreate(rest);
+    }
   }
 
   return (
     <Modalize
-      ref={ref}
+      ref={modalRef}
       adjustToContentHeight={true}
+      avoidKeyboardLikeIOS
       childrenStyle={{
         height: Dimensions.get("window").height / 1.6,
       }}>
@@ -54,7 +88,7 @@ export function Modal(props: ModalProps) {
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
             <AntDesign name="check" size={30} color={themes.colors.black} />
           </TouchableOpacity>
-          <Text style={style.title}>Criar Tarfea</Text>
+          <Text style={style.title}>Criar Tarefa</Text>
           <TouchableOpacity onPress={close}>
             <MaterialIcons name="close" size={30} color={themes.colors.black} />
           </TouchableOpacity>
@@ -96,18 +130,7 @@ export function Modal(props: ModalProps) {
               mode="time"
             />
           </View>
-          <View>
-            <Text style={style.textFlags}>Flags:</Text>
-            <View style={style.containerFlags}>
-              {flags.map((flag) => {
-                return (
-                  <TouchableOpacity key={flag.caption}>
-                    <Flag {...flag} />
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
+          <FlagField control={control} setValue={setValue} />
         </View>
       </KeyboardAvoidingView>
     </Modalize>

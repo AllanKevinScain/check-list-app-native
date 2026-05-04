@@ -5,10 +5,15 @@ import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { useListProvider } from "@/context";
 import { TabItem } from "../tab-item";
 
+import { useFormContext } from "react-hook-form";
+import { defaultValues } from "@/context/form-task-list/provider";
+import type { TaskSchemaInfertype } from "@/schema";
+
 export function BottomBarComponent(props: BottomTabBarProps) {
   const { navigate } = props.navigation;
+  const { open, updateModalMode } = useListProvider();
+  const { reset } = useFormContext<TaskSchemaInfertype>();
 
-  const { handle } = useListProvider();
   const currentRouteName = props.state.routes[props.state.index].name;
 
   return (
@@ -19,7 +24,17 @@ export function BottomBarComponent(props: BottomTabBarProps) {
         onPress={() => navigate("List")}
         isSelected={currentRouteName === "List"}
       />
-      <TabItem Icon={Entypo} iconName="plus" iconSize={40} isPrincipal onPress={handle} />
+      <TabItem
+        Icon={Entypo}
+        iconName="plus"
+        iconSize={40}
+        isPrincipal
+        onPress={() => {
+          reset(defaultValues);
+          updateModalMode("create");
+          open();
+        }}
+      />
       <TabItem
         Icon={FontAwesome}
         iconName="user"

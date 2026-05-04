@@ -1,34 +1,15 @@
 import { FlatList, Text, View } from "react-native";
 import { style } from "./style";
-import { Textfield } from "@/components";
+import { EmptyList, Textfield } from "@/components";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState } from "react";
-import type { ItemListType } from "./item-list";
 import { ItemList } from "./item-list";
-
-const initialList: ItemListType[] = [
-  {
-    id: "1",
-    title: "Teste 1",
-    description: "Descrição 1",
-    flag: "urgente",
-  },
-  {
-    id: "2",
-    title: "Teste 2",
-    description: "Descrição 2",
-    flag: "urgente",
-  },
-  {
-    id: "3",
-    title: "Teste 3",
-    description: "Descrição 3",
-    flag: "urgente",
-  },
-];
+import { defaultValues, useListProvider } from "@/context";
+import { useFormContext } from "react-hook-form";
+import type { TaskSchemaInfertype } from "@/schema";
 
 export function ListPage() {
-  const [list] = useState<ItemListType[]>(initialList);
+  const { reset } = useFormContext<TaskSchemaInfertype>();
+  const { open, list, updateList, updateModalMode } = useListProvider();
 
   return (
     <View style={style.container}>
@@ -45,7 +26,26 @@ export function ListPage() {
         data={list}
         style={style.flatList}
         keyExtractor={({ id }) => id}
-        renderItem={({ item }) => <ItemList {...item} />}
+        renderItem={({ item }) => (
+          <ItemList
+            {...item}
+            openModal={() => {
+              updateModalMode("edit");
+              open();
+            }}
+            updateList={updateList}
+          />
+        )}
+        ListEmptyComponent={() => (
+          <EmptyList
+            buttonContent="Add item"
+            onButtonPress={() => {
+              updateModalMode("create");
+              reset(defaultValues);
+              open();
+            }}
+          />
+        )}
       />
     </View>
   );

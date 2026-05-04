@@ -8,35 +8,26 @@ interface ButtonProps extends TouchableOpacityProps {
   variant?: "primary" | "secondary" | "ghost";
 }
 
-export function Button({ 
-  children, 
-  isLoading, 
-  variant = "primary", 
+export function Button({
+  children,
+  isLoading,
+  variant = "primary",
   style: customStyle,
   disabled,
-  ...rest 
+  ...rest
 }: ButtonProps) {
-  
   const buttonStyles = [
     style.button,
     variant === "secondary" && style.buttonSecondary,
     variant === "ghost" && style.buttonGhost,
     disabled && style.buttonDisabled,
-    customStyle
+    customStyle,
   ];
 
-  const textStyles = [
-    style.buttonText,
-    variant === "ghost" && style.buttonTextGhost,
-  ];
+  const textStyles = [style.buttonText, variant === "ghost" && style.buttonTextGhost];
 
   return (
-    <TouchableOpacity 
-      style={buttonStyles} 
-      disabled={disabled || isLoading}
-      activeOpacity={0.7}
-      {...rest} 
-    >
+    <TouchableOpacity style={buttonStyles} disabled={disabled || isLoading} activeOpacity={0.7} {...rest}>
       {isLoading ? (
         <ActivityIndicator color={variant === "ghost" ? themes.colors.primary : themes.colors.white} />
       ) : (
