@@ -26,9 +26,7 @@ export const style = StyleSheet.create({
     borderColor: themes.colors.border,
   },
   secondaryContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: themes.spacing.md,
+    maxWidth: Dimensions.get("window").width / 1.6,
   },
   title: {
     fontSize: 16,

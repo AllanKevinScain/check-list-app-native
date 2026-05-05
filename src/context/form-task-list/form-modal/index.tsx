@@ -12,19 +12,17 @@ import { FlagField } from "./flag-field";
 import { useItemAsyncStorage } from "@/hooks";
 import { TASK_LIST_KEY } from "@/constants/keys";
 
-import type { IHandles } from "react-native-modalize/lib/options";
 import { defaultValues } from "../provider";
 import type { ListType } from "@/context/list";
+import type { UseModalizeType } from "@/@types/use-modalize.type";
 
-interface ModalProps {
-  modalRef: React.RefObject<IHandles>;
-  close: () => void;
+interface FormModalProps extends UseModalizeType {
   updateList: (data: ListType[]) => void;
   mode: "create" | "edit";
 }
 
-export function Modal(props: ModalProps) {
-  const { close, modalRef, updateList, mode = "create" } = props;
+export function FormModal(props: FormModalProps) {
+  const { close, ref, updateList, mode = "create" } = props;
 
   const { control, handleSubmit, setValue, reset } = useFormContext<TaskSchemaInfertype>();
   const { addItem, editItem } = useItemAsyncStorage(TASK_LIST_KEY);
@@ -53,43 +51,28 @@ export function Modal(props: ModalProps) {
   }
 
   async function onSubmit(data: TaskSchemaInfertype) {
-    const timeLimit = new Date(
-      data.limitDate.getFullYear(),
-      data.limitDate.getMonth(),
-      data.limitDate.getDate(),
-      data.limitTime.getHours(),
-      data.limitTime.getMinutes(),
-    );
     const formatedData = {
       ...data,
       id: mode === "create" ? uuid.v4() : data.id!,
-      timeLimit,
       at_updated: new Date(),
     };
-    const { limitDate: _LD, limitTime: _LT, ...rest } = formatedData;
 
     if (mode === "edit") {
-      await onEdit(rest);
+      await onEdit(formatedData);
     } else {
-      await onCreate(rest);
+      await onCreate(formatedData);
     }
   }
 
   return (
-    <Modalize
-      ref={modalRef}
-      adjustToContentHeight={true}
-      avoidKeyboardLikeIOS
-      childrenStyle={{
-        height: Dimensions.get("window").height / 1.6,
-      }}>
+    <Modalize ref={ref} avoidKeyboardLikeIOS modalHeight={Dimensions.get("window").height / 1.6}>
       <KeyboardAvoidingView style={style.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <View style={style.header}>
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
             <AntDesign name="check" size={30} color={themes.colors.black} />
           </TouchableOpacity>
           <Text style={style.title}>Register task</Text>
-          <TouchableOpacity onPress={close}>
+          <TouchableOpacity onPress={() => close()}>
             <MaterialIcons name="close" size={30} color={themes.colors.black} />
           </TouchableOpacity>
         </View>

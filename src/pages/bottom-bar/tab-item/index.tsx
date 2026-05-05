@@ -3,6 +3,8 @@ import type { ComponentProps, ElementType } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { style } from "./styles";
 
+import { themes } from "@/global/themes";
+
 type NameAntDesigneType = ComponentProps<typeof AntDesign>["name"];
 type NameFontAwesomeType = ComponentProps<typeof FontAwesome>["name"];
 type NameEntypoType = ComponentProps<typeof Entypo>["name"];
@@ -20,8 +22,6 @@ interface TabItemProps {
   isSelected?: boolean;
 }
 
-import { themes } from "@/global/themes";
-
 export function TabItem(props: TabItemProps) {
   const { Icon, iconName, onPress, disabled = false, iconSize = 32, isPrincipal = false, isSelected = false } = props;
 
@@ -33,11 +33,11 @@ export function TabItem(props: TabItemProps) {
         </View>
       )}
       {!isPrincipal && (
-        <Icon 
-          name={iconName} 
-          size={iconSize} 
-          color={isSelected ? themes.colors.primary : themes.colors.textSecondary} 
-          style={style.icon} 
+        <Icon
+          name={iconName}
+          size={iconSize}
+          color={isSelected ? themes.colors.primary : themes.colors.textSecondary}
+          style={style.icon}
         />
       )}
     </TouchableOpacity>

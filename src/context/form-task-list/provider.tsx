@@ -4,7 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import type { TaskSchemaInfertype } from "@/schema";
 import { taskSchema } from "@/schema";
 import { useListProvider } from "../list";
-import { Modal } from "./modal";
+import { FormModal } from "./form-modal";
+import { MiltiSelectModal } from "./multiselect-modal";
 
 export const defaultValues: TaskSchemaInfertype = {
   title: "",
@@ -15,7 +16,8 @@ export const defaultValues: TaskSchemaInfertype = {
 };
 
 export function FormTaskListProvider({ children }: { children: React.ReactNode }) {
-  const { updateList, close, ref, modeModal } = useListProvider();
+  const { updateList, formModalizeValues, multiSelectModalizeValues, modeModal, updateSelectedList, list } =
+    useListProvider();
 
   const methods = useForm<TaskSchemaInfertype>({
     resolver: yupResolver(taskSchema) as any,
@@ -26,8 +28,16 @@ export function FormTaskListProvider({ children }: { children: React.ReactNode }
     <FormTaskListContext.Provider value={{ methods, updateList }}>
       <FormProvider {...methods}>
         {children}
-        <Modal modalRef={ref} close={close} updateList={updateList} mode={modeModal} />
+        <FormModal {...formModalizeValues} updateList={updateList} mode={modeModal} />
       </FormProvider>
+
+      <MiltiSelectModal
+        {...multiSelectModalizeValues}
+        updateSelectedList={() => {
+          updateSelectedList(list.map((i) => i.id));
+          multiSelectModalizeValues.close();
+        }}
+      />
     </FormTaskListContext.Provider>
   );
 }

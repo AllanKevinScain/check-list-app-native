@@ -1,29 +1,23 @@
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { style } from "./style";
-import { EmptyList, Textfield } from "@/components";
-import { MaterialIcons } from "@expo/vector-icons";
+import { EmptyList } from "@/components";
 import { ItemList } from "./item-list";
 import { defaultValues, useListProvider } from "@/context";
 import { useFormContext } from "react-hook-form";
 import type { TaskSchemaInfertype } from "@/schema";
+import { Header } from "./header";
 
 export function ListPage() {
   const { reset } = useFormContext<TaskSchemaInfertype>();
-  const { open, list, updateModalMode } = useListProvider();
+  const { list, filterdList, updateModalMode, filterMethods, formModalizeValues } = useListProvider();
+  const { open } = formModalizeValues;
 
   return (
     <View style={style.container}>
-      <View style={style.header}>
-        <Text style={style.welcomeLabel}>
-          Bom dia, <Text style={{ fontWeight: "bold" }}>Allan S.</Text>
-        </Text>
-        <View style={style.inputBox}>
-          <Textfield IconLeft={MaterialIcons} iconLeftName="search" placeholder="Search" />
-        </View>
-      </View>
+      <Header />
 
       <FlatList
-        data={list}
+        data={filterdList}
         keyExtractor={({ id }) => id}
         renderItem={({ item }) => (
           <ItemList
@@ -34,16 +28,30 @@ export function ListPage() {
             }}
           />
         )}
-        ListEmptyComponent={() => (
-          <EmptyList
-            buttonContent="Add item"
-            onButtonPress={() => {
-              updateModalMode("create");
-              reset(defaultValues);
-              open();
-            }}
-          />
-        )}
+        ListEmptyComponent={() => {
+          if (list.length === 0) {
+            return (
+              <EmptyList
+                buttonContent="Add item"
+                onButtonPress={() => {
+                  updateModalMode("create");
+                  reset(defaultValues);
+                  open();
+                }}
+              />
+            );
+          }
+
+          return (
+            <EmptyList
+              message="Any item founded"
+              buttonContent="Clear search"
+              onButtonPress={() => {
+                filterMethods.reset({ search: "" });
+              }}
+            />
+          );
+        }}
       />
     </View>
   );

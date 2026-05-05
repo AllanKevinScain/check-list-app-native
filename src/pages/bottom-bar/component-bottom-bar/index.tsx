@@ -11,8 +11,9 @@ import type { TaskSchemaInfertype } from "@/schema";
 
 export function BottomBarComponent(props: BottomTabBarProps) {
   const { navigate } = props.navigation;
-  const { open, updateModalMode } = useListProvider();
+  const { formModalizeValues, updateModalMode } = useListProvider();
   const { reset } = useFormContext<TaskSchemaInfertype>();
+  const { open } = formModalizeValues;
 
   const currentRouteName = props.state.routes[props.state.index].name;
 

@@ -5,9 +5,7 @@ export const style = StyleSheet.create({
   container: {
     flex: 1,
     width: "100%",
-    paddingTop: themes.spacing.md,
-    paddingHorizontal: themes.spacing.lg,
-    backgroundColor: themes.colors.white,
+    padding: themes.spacing.lg,
   },
   header: {
     width: "100%",
@@ -24,18 +22,6 @@ export const style = StyleSheet.create({
   },
   formContainer: {
     width: "100%",
-  },
-  containerFlags: {
-    flexDirection: "row",
-    gap: themes.spacing.sm,
-    marginTop: themes.spacing.sm,
-    marginBottom: themes.spacing.xl,
-  },
-  textFlags: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: themes.colors.black,
-    marginTop: themes.spacing.md,
   },
   inputLabel: {
     fontSize: 14,

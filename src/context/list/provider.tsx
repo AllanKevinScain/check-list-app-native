@@ -4,13 +4,14 @@ import { ListContext } from "./context";
 import { useModalize } from "react-native-modalize";
 import { useAsyncStorage } from "@/hooks";
 import { TASK_LIST_KEY } from "@/constants/keys";
-import { useFilterList, useModalMode } from "./list-hook";
+import { useTaskList, useModalMode } from "./list-hook";
 
 export function ListProvider({ children }: { children: React.ReactNode }) {
-  const modalizeValues = useModalize();
+  const formModalizeValues = useModalize();
+  const multiSelectModalizeValues = useModalize();
   const { getItem } = useAsyncStorage();
   const modeModalState = useModalMode();
-  const listState = useFilterList();
+  const listState = useTaskList();
   const { updateList } = listState;
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export function ListProvider({ children }: { children: React.ReactNode }) {
   }, [getItem, updateList]);
 
   return (
-    <ListContext.Provider value={{ ...listState, ...modalizeValues, ...modeModalState }}>
+    <ListContext.Provider value={{ ...listState, ...modeModalState, formModalizeValues, multiSelectModalizeValues }}>
       {children}
     </ListContext.Provider>
   );

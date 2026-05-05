@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { requiredDate, requiredString } from "./validators";
 
-const flagSchema = yup.string().oneOf(["urgent", "optional"]);
+export const flagSchema = yup.string().oneOf(["urgent", "optional"]);
 export type FlagSchemaInferType = yup.InferType<typeof flagSchema>;
 
 export const taskSchema = yup.object({

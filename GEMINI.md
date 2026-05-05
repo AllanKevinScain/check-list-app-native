@@ -37,5 +37,15 @@
 - **Padronização de Reset:** Centralização e exportação de `defaultValues` no `FormTaskListProvider`, permitindo que o `BottomBarComponent` limpe o formulário antes de abrir o modal para novas tarefas.
 - **Tipagem e UX:** Refinamento das interfaces de Props e correção de labels visuais no cabeçalho do modal.
 
+## 6. Correção de Sobreposição e Camadas (Z-Index)
+- **Header vs List:** Aplicação de `zIndex: 1` e `elevation: 8` no `src/pages/list/header/style.ts` para garantir que o menu de seleção múltipla (e outros modais disparados pelo Header) não sejam sobrepostos pelos itens da `FlatList`.
+
+## 7. Análise Técnica Consolidada (Estado Atual)
+- **Arquitetura:** Uso robusto de Context API para gestão de estado global (Listas e Formulários).
+- **Tematização:** Adoção integral de tokens semânticos em `src/global/themes.tsx`.
+- **Componentização:** Componentes core (`Button`, `TextField`) com suporte a múltiplas variantes e estados.
+- **Persistência:** Integração com `AsyncStorage` centralizada via hooks customizados.
+- **Navegação:** Estrutura de `BottomTabNavigator` otimizada para acessibilidade global de modais.
+
 ---
 *Nota: Este projeto agora segue rigorosamente os tokens definidos em `src/global/themes.tsx` para qualquer nova implementação visual.*

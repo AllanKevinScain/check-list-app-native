@@ -15,16 +15,16 @@ export type ItemListType = ListType & {
 
 export function ItemList(props: ItemListType) {
   const { openModal, ...item } = props;
-  const { id, title, timeLimit, flag, at_updated } = item;
+  const { id, title, limitDate, limitTime, flag, at_updated } = item;
 
-  const { updateList, filteredList, updateFilteredList } = useListProvider();
+  const { updateList, selectedList, updateSelectedList } = useListProvider();
   const { reset } = useFormContext<TaskSchemaInfertype>();
 
   const { removeItem } = useItemAsyncStorage(TASK_LIST_KEY);
 
   return (
     <View style={style.container}>
-      <Ball selected={filteredList.includes(id)} onPress={() => updateFilteredList(id)} />
+      <Ball selected={selectedList.includes(id)} onPress={() => updateSelectedList([id])} />
       <Swipeable
         styleContainer={style.swipeableContainer}
         onRemove={async () => {
@@ -36,11 +36,13 @@ export function ItemList(props: ItemListType) {
           openModal();
         }}>
         <View style={style.secondaryContainer}>
-          <View>
-            <Text style={style.title}>{title}</Text>
-            <Text style={style.description}>{formatedDateToBR(timeLimit).replace(" ", " - ")}</Text>
-            <Text style={style.description}>Create at: {formatedDateToBR(at_updated).replace(" ", " - ")}</Text>
-          </View>
+          <Text style={style.title} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
+          <Text style={style.description}>
+            {formatedDateToBR({ date: limitDate, time: limitTime }).replace(" ", " - ")}
+          </Text>
+          <Text style={style.description}>Create at: {formatedDateToBR({ date: at_updated }).replace(" ", " - ")}</Text>
         </View>
         <Flag caption={flag} disabled />
       </Swipeable>
