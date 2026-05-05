@@ -3,7 +3,7 @@ import type { RefObject } from "react";
 import { createContext } from "react";
 import type { IHandles } from "react-native-modalize/lib/options";
 import type { UseTaskListInterface, UseModalModeInterface } from "./list-hook";
-import type { UseFormReturn } from "react-hook-form";
+import type { UseFieldArrayReturn, UseFormReturn } from "react-hook-form";
 import type { UseModalizeType } from "@/@types/use-modalize.type";
 
 export type ModalModeType = "create" | "edit";
@@ -46,4 +46,6 @@ export const ListContext = createContext<ListContextType>({
   // search / pesquisa
   filterdList: [],
   filterMethods: {} as UseFormReturn<FilterTaskSchemaInfertype>,
+  listMethods: {} as UseFormReturn<{ tasks: ListType[] }>,
+  fieldArrayMethods: {} as UseFieldArrayReturn<{ tasks: ListType[] }, "tasks", "key">,
 });

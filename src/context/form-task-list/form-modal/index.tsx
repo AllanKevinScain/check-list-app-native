@@ -13,24 +13,26 @@ import { useItemAsyncStorage } from "@/hooks";
 import { TASK_LIST_KEY } from "@/constants/keys";
 
 import { defaultValues } from "../provider";
-import type { ListType } from "@/context/list";
+import { useListProvider, type ListType } from "@/context/list";
 import type { UseModalizeType } from "@/@types/use-modalize.type";
 
 interface FormModalProps extends UseModalizeType {
-  updateList: (data: ListType[]) => void;
   mode: "create" | "edit";
 }
 
 export function FormModal(props: FormModalProps) {
-  const { close, ref, updateList, mode = "create" } = props;
+  const { close, ref, mode = "create" } = props;
 
   const { control, handleSubmit, setValue, reset } = useFormContext<TaskSchemaInfertype>();
+  const { fieldArrayMethods } = useListProvider();
+  const { append, update, fields } = fieldArrayMethods;
+
   const { addItem, editItem } = useItemAsyncStorage(TASK_LIST_KEY);
 
   async function onCreate(data: ListType) {
     try {
-      const items = await addItem(data);
-      updateList(items);
+      await addItem(data);
+      append(data);
     } catch (error) {
       console.log("🚀 ~ create item error", error);
     } finally {
@@ -40,8 +42,11 @@ export function FormModal(props: FormModalProps) {
   }
   async function onEdit(data: ListType) {
     try {
-      const items = await editItem(data.id, data);
-      updateList(items);
+      await editItem(data.id, data);
+      const index = fields.findIndex((f) => f.id === data.id);
+      if (index !== -1) {
+        update(index, data);
+      }
     } catch (error) {
       console.log("🚀 ~ edit item error", error);
     } finally {
@@ -53,7 +58,7 @@ export function FormModal(props: FormModalProps) {
   async function onSubmit(data: TaskSchemaInfertype) {
     const formatedData = {
       ...data,
-      id: mode === "create" ? uuid.v4() : data.id!,
+      id: mode === "create" ? (uuid.v4() as string) : data.id!,
       at_updated: new Date(),
     };
 

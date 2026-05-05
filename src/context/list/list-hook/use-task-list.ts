@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import type { ListType } from "../context";
-import type { UseFormReturn } from "react-hook-form";
-import { useForm, useWatch } from "react-hook-form";
+import type { UseFormReturn, UseFieldArrayReturn } from "react-hook-form";
+import { useForm, useWatch, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { FilterTaskSchemaInfertype } from "@/schema";
 import { filterTaskSchema } from "@/schema";
@@ -13,24 +13,41 @@ export interface UseTaskListInterface {
   updateList: (data: ListType[]) => void;
   filterdList: ListType[];
   filterMethods: UseFormReturn<FilterTaskSchemaInfertype>;
+  listMethods: UseFormReturn<{ tasks: ListType[] }>;
+  fieldArrayMethods: UseFieldArrayReturn<{ tasks: ListType[] }, "tasks", "key">;
 }
 
 export function useTaskList(): UseTaskListInterface {
-  const [list, setList] = useState<ListType[]>([]);
   const [selectedList, setSelectedList] = useState<string[]>([]);
 
-  const methods = useForm<FilterTaskSchemaInfertype>({
+  const listMethods = useForm<{ tasks: ListType[] }>({
+    defaultValues: { tasks: [] },
+  });
+
+  const fieldArrayMethods = useFieldArray({
+    control: listMethods.control,
+    name: "tasks",
+    keyName: "key",
+  });
+
+  const { fields: list, replace } = fieldArrayMethods;
+
+  const filterMethods = useForm<FilterTaskSchemaInfertype>({
     resolver: yupResolver(filterTaskSchema) as any,
     defaultValues: { search: undefined },
   });
+
   const watchedSearch = useWatch({
-    control: methods.control,
+    control: filterMethods.control,
     name: "search",
   });
 
-  const updateList = useCallback((data: ListType[]) => {
-    setList(data);
-  }, []);
+  const updateList = useCallback(
+    (data: ListType[]) => {
+      replace(data);
+    },
+    [replace],
+  );
 
   const updateSelectedList = useCallback(
     (ids: string[]) => {
@@ -67,9 +84,11 @@ export function useTaskList(): UseTaskListInterface {
   return {
     selectedList,
     updateSelectedList,
-    list,
-    filterdList,
+    list: list as ListType[],
+    filterdList: filterdList as ListType[],
     updateList,
-    filterMethods: methods,
+    filterMethods,
+    listMethods,
+    fieldArrayMethods,
   };
 }

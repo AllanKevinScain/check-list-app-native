@@ -17,7 +17,8 @@ export function ItemList(props: ItemListType) {
   const { openModal, ...item } = props;
   const { id, title, limitDate, limitTime, flag, at_updated } = item;
 
-  const { updateList, selectedList, updateSelectedList } = useListProvider();
+  const { selectedList, updateSelectedList, fieldArrayMethods } = useListProvider();
+  const { remove, fields } = fieldArrayMethods;
   const { reset } = useFormContext<TaskSchemaInfertype>();
 
   const { removeItem } = useItemAsyncStorage(TASK_LIST_KEY);
@@ -28,8 +29,11 @@ export function ItemList(props: ItemListType) {
       <Swipeable
         styleContainer={style.swipeableContainer}
         onRemove={async () => {
-          const items = await removeItem(id);
-          updateList(items);
+          await removeItem(id);
+          const index = fields.findIndex((f) => f.id === id);
+          if (index !== -1) {
+            remove(index);
+          }
         }}
         onUpdated={() => {
           reset(item);

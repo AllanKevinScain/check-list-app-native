@@ -16,8 +16,7 @@ export const defaultValues: TaskSchemaInfertype = {
 };
 
 export function FormTaskListProvider({ children }: { children: React.ReactNode }) {
-  const { updateList, formModalizeValues, multiSelectModalizeValues, modeModal, updateSelectedList, list } =
-    useListProvider();
+  const { formModalizeValues, multiSelectModalizeValues, modeModal, updateSelectedList, list } = useListProvider();
 
   const methods = useForm<TaskSchemaInfertype>({
     resolver: yupResolver(taskSchema) as any,
@@ -25,10 +24,10 @@ export function FormTaskListProvider({ children }: { children: React.ReactNode }
   });
 
   return (
-    <FormTaskListContext.Provider value={{ methods, updateList }}>
+    <FormTaskListContext.Provider value={{ methods }}>
       <FormProvider {...methods}>
         {children}
-        <FormModal {...formModalizeValues} updateList={updateList} mode={modeModal} />
+        <FormModal {...formModalizeValues} mode={modeModal} />
       </FormProvider>
 
       <MiltiSelectModal
