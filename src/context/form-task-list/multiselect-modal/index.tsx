@@ -1,10 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Dimensions, KeyboardAvoidingView, Platform, TouchableOpacity, View } from "react-native";
+import { Dimensions, KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from "react-native";
 import { style } from "./style";
 import { Modalize } from "react-native-modalize";
 import { themes } from "@/global/themes";
 import type { UseModalizeType } from "@/@types/use-modalize.type";
-import { Button } from "@/components";
 
 type MiltiSelectModalProps = UseModalizeType & {
   updateSelectedList: () => void;
@@ -21,9 +20,11 @@ export function MiltiSelectModal(props: MiltiSelectModalProps) {
             <MaterialIcons name="close" size={30} color={themes.colors.black} />
           </TouchableOpacity>
         </View>
-        <Button variant="ghost" onPress={updateSelectedList}>
-          Selecionar todos
-        </Button>
+        <View style={style.itemsContainer}>
+          <TouchableOpacity style={style.item} onPress={updateSelectedList}>
+            <Text style={style.textItem}>Selecionar todos</Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     </Modalize>
   );

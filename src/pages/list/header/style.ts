@@ -22,8 +22,9 @@ export const style = StyleSheet.create({
   },
   menuContainer: {
     position: "absolute",
-    right: 20,
-    top: 50,
+    right: 5,
+    top: 40,
+    padding: 15,
   },
   welcomeLabel: {
     fontSize: 16,

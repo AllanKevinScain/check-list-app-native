@@ -5,7 +5,7 @@ import { style } from "./style";
 import { useListProvider } from "@/context";
 
 export function Header() {
-  const { filterMethods, multiSelectModalizeValues } = useListProvider();
+  const { multiSelectModalizeValues, listMethods } = useListProvider();
   const { open } = multiSelectModalizeValues;
   return (
     <View style={style.header}>
@@ -18,7 +18,7 @@ export function Header() {
       </Text>
       <View style={style.inputBox}>
         <TextfieldRHF
-          control={filterMethods.control}
+          control={listMethods.control}
           name="search"
           IconLeft={MaterialIcons}
           iconLeftName="search"

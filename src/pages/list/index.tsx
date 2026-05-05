@@ -3,14 +3,34 @@ import { style } from "./style";
 import { EmptyList } from "@/components";
 import { ItemList } from "./item-list";
 import { defaultValues, useListProvider } from "@/context";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import type { TaskSchemaInfertype } from "@/schema";
 import { Header } from "./header";
+import { useMemo } from "react";
 
 export function ListPage() {
   const { reset } = useFormContext<TaskSchemaInfertype>();
-  const { list, filterdList, updateModalMode, filterMethods, formModalizeValues } = useListProvider();
+  const { updateModalMode, formModalizeValues, fieldArrayMethods, listMethods } = useListProvider();
   const { open } = formModalizeValues;
+  const { fields } = fieldArrayMethods;
+
+  const watchedSearch = useWatch({ control: listMethods.control, name: "search" });
+
+  const filterdList = useMemo(() => {
+    const search = watchedSearch?.toLowerCase();
+
+    if (search) {
+      return fields.filter((i) => {
+        const title = i.title.toLowerCase();
+        const description = i.description?.toLowerCase();
+        if (title.includes(search) || description?.includes(search)) {
+          return i;
+        }
+      });
+    }
+
+    return fields;
+  }, [fields, watchedSearch]);
 
   return (
     <View style={style.container}>
@@ -22,6 +42,7 @@ export function ListPage() {
         renderItem={({ item }) => (
           <ItemList
             {...item}
+            key={item.id}
             openModal={() => {
               updateModalMode("edit");
               open();
@@ -29,7 +50,7 @@ export function ListPage() {
           />
         )}
         ListEmptyComponent={() => {
-          if (list.length === 0) {
+          if (fields.length === 0) {
             return (
               <EmptyList
                 buttonContent="Add item"
@@ -47,7 +68,7 @@ export function ListPage() {
               message="Any item founded"
               buttonContent="Clear search"
               onButtonPress={() => {
-                filterMethods.reset({ search: "" });
+                listMethods.reset({ search: "" });
               }}
             />
           );

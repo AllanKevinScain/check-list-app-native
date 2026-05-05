@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import type { ListType } from "./context";
 import { ListContext } from "./context";
 import { useModalize } from "react-native-modalize";
 import { useAsyncStorage } from "@/hooks";
 import { TASK_LIST_KEY } from "@/constants/keys";
 import { useTaskList, useModalMode } from "./list-hook";
 import { FormProvider } from "react-hook-form";
+import type { ListType } from "@/schema";
 
 export function ListProvider({ children }: { children: React.ReactNode }) {
   const formModalizeValues = useModalize();
@@ -13,15 +13,15 @@ export function ListProvider({ children }: { children: React.ReactNode }) {
   const { getItem } = useAsyncStorage();
   const modeModalState = useModalMode();
   const listState = useTaskList();
-  const { updateList, listMethods } = listState;
+  const { listMethods, fieldArrayMethods } = listState;
 
   useEffect(() => {
     async function load() {
       const items = (await getItem(TASK_LIST_KEY)) as ListType[];
-      updateList(items || []);
+      fieldArrayMethods.replace(items || []);
     }
     load();
-  }, [getItem, updateList]);
+  }, [fieldArrayMethods, getItem]);
 
   return (
     <ListContext.Provider value={{ ...listState, ...modeModalState, formModalizeValues, multiSelectModalizeValues }}>

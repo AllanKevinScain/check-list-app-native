@@ -47,5 +47,14 @@
 - **Persistência:** Integração com `AsyncStorage` centralizada via hooks customizados.
 - **Navegação:** Estrutura de `BottomTabNavigator` otimizada para acessibilidade global de modais.
 
+## 8. Refatoração da Gestão de Listas com `useFieldArray`
+- **Integração com React Hook Form:** Migração da gestão da lista de tarefas de um estado simples (`useState`) para o `useFieldArray` do `react-hook-form`, permitindo que a lista completa seja tratada como parte de um formulário.
+- **Manipulação de Itens:** Utilização dos métodos `append` para criação, `update` para edição e `remove` para exclusão de tarefas diretamente via `fieldArrayMethods`, garantindo sincronia entre a UI e o estado do formulário.
+- **Esquema de Dados e Tipagem:**
+  *   Criação do `taskListSchema` em `src/schema/task.schema.ts` para validar o array de tarefas e o campo de pesquisa.
+  *   Centralização da tipagem `ListType` e `TaskListSchemaInfertype` para garantir consistência em todo o projeto.
+- **Persistência Sincronizada:** Manutenção da integração com `AsyncStorage` através do `useItemAsyncStorage`, executando persistência física em paralelo com as atualizações de estado do `useFieldArray`.
+- **Simplificação de Contexto:** Remoção de funções de atualização manuais (como `updateList` passada via props) em favor do acesso direto aos métodos do RHF através do `useListProvider`.
+
 ---
-*Nota: Este projeto agora segue rigorosamente os tokens definidos em `src/global/themes.tsx` para qualquer nova implementação visual.*
+*Nota: Este projeto agora segue rigorosamente os tokens definidos em `src/global/themes.tsx` para qualquer nova implementação visual e utiliza `react-hook-form` para gestão integral de estados complexos de listas.*

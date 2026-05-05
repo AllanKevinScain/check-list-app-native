@@ -1,4 +1,4 @@
-import type { FilterTaskSchemaInfertype, TaskSchemaInfertype } from "@/schema";
+import type { TaskListSchemaInfertype } from "@/schema";
 import type { RefObject } from "react";
 import { createContext } from "react";
 import type { IHandles } from "react-native-modalize/lib/options";
@@ -8,11 +8,6 @@ import type { UseModalizeType } from "@/@types/use-modalize.type";
 
 export type ModalModeType = "create" | "edit";
 
-export type ListType = Pick<TaskSchemaInfertype, "title" | "description" | "flag" | "limitDate" | "limitTime"> & {
-  at_updated: Date;
-  id: string;
-};
-
 export type ListContextType = UseTaskListInterface &
   UseModalModeInterface & {
     formModalizeValues: UseModalizeType;
@@ -20,10 +15,6 @@ export type ListContextType = UseTaskListInterface &
   };
 
 export const ListContext = createContext<ListContextType>({
-  // lista primária
-  list: [],
-  updateList: () => null,
-
   // itens da lista selecionados
   selectedList: [],
   updateSelectedList: () => null,
@@ -44,8 +35,6 @@ export const ListContext = createContext<ListContextType>({
   updateModalMode: () => null,
 
   // search / pesquisa
-  filterdList: [],
-  filterMethods: {} as UseFormReturn<FilterTaskSchemaInfertype>,
-  listMethods: {} as UseFormReturn<{ tasks: ListType[] }>,
-  fieldArrayMethods: {} as UseFieldArrayReturn<{ tasks: ListType[] }, "tasks", "key">,
+  listMethods: {} as UseFormReturn<TaskListSchemaInfertype>,
+  fieldArrayMethods: {} as UseFieldArrayReturn<TaskListSchemaInfertype, "tasks", "key">,
 });

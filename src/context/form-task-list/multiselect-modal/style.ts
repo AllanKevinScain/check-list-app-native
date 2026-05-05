@@ -13,4 +13,18 @@ export const style = StyleSheet.create({
     width: "100%",
     backgroundColor: themes.colors.white,
   },
+  itemsContainer: {
+    gap: 10,
+    padding: 20,
+    alignItems: "flex-end",
+  },
+  item: {
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: themes.colors.surfaceSecondary,
+  },
+  textItem: {
+    color: themes.colors.white,
+  },
 });
