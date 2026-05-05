@@ -1,6 +1,47 @@
 import { themes } from "@/global/themes";
 import { Dimensions, StyleSheet } from "react-native";
 
+const errorStyle = StyleSheet.create({
+  errorContainer: {
+    width: "100%",
+    height: 50,
+    backgroundColor: themes.colors.error,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: themes.colors.white,
+  },
+});
+
+const googleStyle = StyleSheet.create({
+  googleContainer: {
+    width: "100%",
+    height: 50,
+    backgroundColor: themes.colors.white,
+    borderRadius: 10,
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 1,
+    borderColor: themes.colors.surfaceSecondary,
+  },
+  googleContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  googleText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: themes.colors.black,
+  },
+});
+
 export const style = StyleSheet.create({
   container: {
     flex: 1,
@@ -46,5 +87,7 @@ export const style = StyleSheet.create({
   createAccountLink: {
     color: themes.colors.primary,
     fontWeight: "700",
-  }
+  },
+  ...googleStyle,
+  ...errorStyle,
 });

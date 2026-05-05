@@ -13,7 +13,8 @@
       "backgroundColor": "#010100"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.googleauth.ios.allan"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,10 +24,23 @@
       "softwareKeyboardLayoutMode": "pan",
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.checklistappnative"
+      "package": "com.googleauth.android.allan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.161449187764-6k0ju73edd55i3jn7m5lvgh57jb3d3lj"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "6e66a065-5617-4817-8e01-b6697b9514c4"
+      }
     }
   }
 }

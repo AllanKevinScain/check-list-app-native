@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { BottomBar, LoginPage } from "@/pages";
 
 import { themes } from "@/global/themes";
+import { AuthProvider } from "@/context/auth/provider";
 
 const screens = {
   Login: LoginPage,
@@ -18,4 +19,5 @@ export const RootStack = createNativeStackNavigator({
     },
   },
   screens,
+  layout: ({ children }) => <AuthProvider>{children}</AuthProvider>,
 });

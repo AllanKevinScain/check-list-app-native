@@ -9,8 +9,8 @@ import { Header } from "./header";
 import { useMemo } from "react";
 
 export function ListPage() {
-  const { reset } = useFormContext<TaskSchemaInfertype>();
   const { updateModalMode, formModalizeValues, fieldArrayMethods, listMethods } = useListProvider();
+  const { reset } = useFormContext<TaskSchemaInfertype>();
   const { open } = formModalizeValues;
   const { fields } = fieldArrayMethods;
 
